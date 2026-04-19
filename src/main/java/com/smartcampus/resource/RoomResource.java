@@ -9,8 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.util.UUID;
 
 @Path("/rooms")
@@ -33,5 +32,37 @@ public class RoomResource {
         
         URI location = URI.create("/api/v1/rooms/" + id);
         return Response.created(location).entity(newRoom).build();
+    }
+
+    @GET
+    @Path("/{roomId}")
+    public Response getRoomById(@PathParam("roomId") String roomId) {
+        Room room = DataStore.getRooms().get(roomId);
+        if (room == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Room not found");
+            error.put("roomId", roomId);
+            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+        }
+        return Response.ok(room).build();
+    }
+
+    @DELETE
+    @Path("/{roomId}")
+    public Response deleteRoom(@PathParam("roomId") String roomId) {
+        Room room = DataStore.getRooms().get(roomId);
+        if (room == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (room.getSensorIds() != null && !room.getSensorIds().isEmpty()) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Room not empty");
+            error.put("details", "Remove all sensors before deleting this room.");
+            return Response.status(Response.Status.CONFLICT).entity(error).build();
+        }
+
+        DataStore.getRooms().remove(roomId);
+        return Response.noContent().build();
     }
 }
