@@ -8,8 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Path("/sensors")
 @Produces(MediaType.APPLICATION_JSON)
@@ -37,5 +36,22 @@ public class SensorResource {
 
         URI location = URI.create("/api/v1/sensors/" + sensor.getId());
         return Response.created(location).entity(sensor).build();
+    }
+
+    @GET
+    public Response getAllSensors(@QueryParam("type") String type) {
+        Collection<Sensor> allSensors = DataStore.getSensors().values();
+        
+        if (type == null || type.isEmpty()) {
+            return Response.ok(allSensors).build();
+        }
+
+        List<Sensor> filtered = new ArrayList<>();
+        for (Sensor s : allSensors) {
+            if (s.getType().equalsIgnoreCase(type)) {
+                filtered.add(s);
+            }
+        }
+        return Response.ok(filtered).build();
     }
 }
