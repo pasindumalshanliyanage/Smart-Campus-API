@@ -54,4 +54,9 @@ public class SensorResource {
         }
         return Response.ok(filtered).build();
     }
+
+    @Path("{sensorId}/readings")
+    public SensorReadingResource getReadingResource(@PathParam("sensorId") String sensorId) {
+        return new SensorReadingResource(sensorId);
+    }
 }
