@@ -1,5 +1,6 @@
 package com.smartcampus;
 
+import com.smartcampus.mapper.*;
 import com.smartcampus.resource.DiscoveryResource;
 import com.smartcampus.resource.RoomResource;
 import com.smartcampus.resource.SensorResource;
@@ -15,5 +16,14 @@ public class AppConfig extends ResourceConfig {
         register(RoomResource.class);
         register(SensorResource.class);
         register(JacksonFeature.class);
+        
+        // Exception Mappers
+        register(RoomNotEmptyExceptionMapper.class);
+        register(LinkedResourceNotFoundExceptionMapper.class);
+        register(SensorUnavailableExceptionMapper.class);
+        register(GlobalExceptionMapper.class);
+        
+        // Filters
+        register(LoggingFilter.class);
     }
 }
