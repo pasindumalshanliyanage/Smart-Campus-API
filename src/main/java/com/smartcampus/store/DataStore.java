@@ -2,13 +2,17 @@ package com.smartcampus.store;
 
 import com.smartcampus.model.Room;
 import com.smartcampus.model.Sensor;
+import com.smartcampus.model.SensorReading;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DataStore {
     private static final ConcurrentHashMap<String, Room> rooms = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Sensor> sensors = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, List<SensorReading>> readings = new ConcurrentHashMap<>();
 
     static {
         // Sample Rooms
@@ -26,6 +30,17 @@ public class DataStore {
         // Link sensors to room
         r1.getSensorIds().add(s1.getId());
         r1.getSensorIds().add(s2.getId());
+
+        // Sample Readings for sn-9001
+        List<SensorReading> rList1 = new ArrayList<>();
+        rList1.add(new SensorReading(UUID.randomUUID().toString(), System.currentTimeMillis() - 3600000, 21.0));
+        rList1.add(new SensorReading(UUID.randomUUID().toString(), System.currentTimeMillis(), 22.5));
+        readings.put(s1.getId(), rList1);
+
+        // Sample Reading for sn-9002
+        List<SensorReading> rList2 = new ArrayList<>();
+        rList2.add(new SensorReading(UUID.randomUUID().toString(), System.currentTimeMillis(), 450.0));
+        readings.put(s2.getId(), rList2);
     }
 
     public static ConcurrentHashMap<String, Room> getRooms() {
@@ -34,5 +49,9 @@ public class DataStore {
 
     public static ConcurrentHashMap<String, Sensor> getSensors() {
         return sensors;
+    }
+
+    public static ConcurrentHashMap<String, List<SensorReading>> getReadings() {
+        return readings;
     }
 }
