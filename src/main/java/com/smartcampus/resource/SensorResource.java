@@ -1,5 +1,6 @@
 package com.smartcampus.resource;
 
+import com.smartcampus.exception.LinkedResourceNotFoundException;
 import com.smartcampus.model.Room;
 import com.smartcampus.model.Sensor;
 import com.smartcampus.store.DataStore;
@@ -20,10 +21,7 @@ public class SensorResource {
         // Validate roomId existence
         Room room = DataStore.getRooms().get(sensor.getRoomId());
         if (room == null) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "Linked resource not found");
-            error.put("details", "Room with id '" + sensor.getRoomId() + "' does not exist.");
-            return Response.status(422).entity(error).build(); // 422 Unprocessable Entity
+            throw new LinkedResourceNotFoundException(sensor.getRoomId());
         }
 
         // Save sensor
