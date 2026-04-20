@@ -1,5 +1,6 @@
 package com.smartcampus.resource;
 
+import com.smartcampus.exception.RoomNotEmptyException;
 import com.smartcampus.model.Room;
 import com.smartcampus.store.DataStore;
 
@@ -56,10 +57,7 @@ public class RoomResource {
         }
 
         if (room.getSensorIds() != null && !room.getSensorIds().isEmpty()) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "Room not empty");
-            error.put("details", "Remove all sensors before deleting this room.");
-            return Response.status(Response.Status.CONFLICT).entity(error).build();
+            throw new RoomNotEmptyException(roomId);
         }
 
         DataStore.getRooms().remove(roomId);
