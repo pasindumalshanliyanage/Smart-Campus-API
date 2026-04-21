@@ -24,12 +24,15 @@ public class DataStore {
         // Sample Sensors
         Sensor s1 = new Sensor("sn-9001", "TEMPERATURE", "ACTIVE", 22.5, "room-101");
         Sensor s2 = new Sensor("sn-9002", "CO2", "ACTIVE", 450.0, "room-101");
+        Sensor s3 = new Sensor("sn-9003", "TEMPERATURE", "MAINTENANCE", 25.0, "room-101");
         sensors.put(s1.getId(), s1);
         sensors.put(s2.getId(), s2);
+        sensors.put(s3.getId(), s3);
 
         // Link sensors to room
         r1.getSensorIds().add(s1.getId());
         r1.getSensorIds().add(s2.getId());
+        r1.getSensorIds().add(s3.getId());
 
         // Sample Readings for sn-9001
         List<SensorReading> rList1 = new ArrayList<>();

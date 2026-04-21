@@ -15,6 +15,21 @@ public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(Throwable exception) {
+        // If it's a standard JAX-RS exception (like 404, 405, 415), respect its status code
+        if (exception instanceof javax.ws.rs.WebApplicationException) {
+            javax.ws.rs.WebApplicationException wae = (javax.ws.rs.WebApplicationException) exception;
+            Response response = wae.getResponse();
+            
+            Map<String, String> body = new LinkedHashMap<>();
+            body.put("error", Response.Status.fromStatusCode(response.getStatus()).getReasonPhrase());
+            body.put("details", exception.getMessage());
+            
+            return Response.status(response.getStatus())
+                    .entity(body)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+
         LOGGER.log(Level.SEVERE, "An unexpected error occurred", exception);
 
         Map<String, String> body = new LinkedHashMap<>();

@@ -53,6 +53,19 @@ public class SensorResource {
         return Response.ok(filtered).build();
     }
 
+    @GET
+    @Path("/{sensorId}")
+    public Response getSensorById(@PathParam("sensorId") String sensorId) {
+        Sensor sensor = DataStore.getSensors().get(sensorId);
+        if (sensor == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Sensor not found");
+            error.put("sensorId", sensorId);
+            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+        }
+        return Response.ok(sensor).build();
+    }
+
     @Path("{sensorId}/readings")
     public SensorReadingResource getReadingResource(@PathParam("sensorId") String sensorId) {
         return new SensorReadingResource(sensorId);

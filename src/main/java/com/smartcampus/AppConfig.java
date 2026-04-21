@@ -15,6 +15,7 @@ public class AppConfig extends ResourceConfig {
         register(DiscoveryResource.class);
         register(RoomResource.class);
         register(SensorResource.class);
+        register(com.smartcampus.resource.SensorReadingResource.class);
         register(JacksonFeature.class);
         
         // Exception Mappers
