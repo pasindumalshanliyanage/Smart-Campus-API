@@ -111,7 +111,7 @@ curl -X POST http://localhost:8080/api/v1/sensors/sn-9001/readings \
 # 12. Try to post a reading to a MAINTENANCE sensor (403)
 # Registering data to blocked sensors results in a 403 Forbidden response.
 # (Note: Requires a sensor with status "MAINTENANCE")
-curl -X POST http://localhost:8080/api/v1/sensors/sn-9002/readings \
+curl -X POST http://localhost:8080/api/v1/sensors/sn-9003/readings \
   -H "Content-Type: application/json" \
   -d '{"value":21.0}'
 
