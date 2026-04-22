@@ -20,24 +20,36 @@ The API exposes a well-defined resource hierarchy starting with a central discov
 - Git
 
 ## 3. Build & Run Instructions
+
+### Option 1 — NetBeans (Recommended for markers)
+1. Open NetBeans IDE
+2. Click File → Open Project
+3. Navigate to the cloned Smart-Campus-API folder
+4. Click Open Project
+5. Right click the project in the Projects panel
+6. Click Run
+7. Server starts at: http://localhost:8080/
+8. Test using Postman or curl with base URL: http://127.0.0.1:8080/
+
+### Option 2 — Terminal / Command Line
 1. Clone the repository:
-   ```bash
    git clone https://github.com/pasindumalshanliyanage/Smart-Campus-API.git
-   ```
 2. Navigate into the project folder:
-   ```bash
    cd Smart-Campus-API
-   ```
-3. Run the clean package command to build the project:
-   ```bash
+3. Build the project:
    mvn clean package
-   ```
-4. Start the application using the Maven Exec plugin:
-   ```bash
+4. Start the application:
    mvn exec:java -Dexec.mainClass="com.smartcampus.Main"
-   ```
-5. The server will start and listen at: **http://localhost:8080/api/v1**
-6. Press **CTRL+C** in the terminal to stop the server.
+5. Server starts at: http://localhost:8080/
+6. Press CTRL+C to stop the server.
+
+### Important Notes
+- The API base URL is http://127.0.0.1:8080/ (not http://localhost:8080/api/v1)
+- Use 127.0.0.1 instead of localhost to avoid IPv6 connection issues on Mac
+- All endpoints are accessible directly from the root:
+  - http://127.0.0.1:8080/rooms
+  - http://127.0.0.1:8080/sensors
+  - http://127.0.0.1:8080/sensors/{id}/readings
 
 ## 4. API Endpoints Reference
 

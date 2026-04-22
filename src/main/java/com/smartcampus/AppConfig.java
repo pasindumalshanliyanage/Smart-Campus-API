@@ -9,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
 
-@ApplicationPath("/api/v1")
+@ApplicationPath("/")
 public class AppConfig extends ResourceConfig {
     public AppConfig() {
         register(DiscoveryResource.class);
